@@ -8,6 +8,8 @@
 \usepackage{titlesec}
 \usepackage{hyperref}
 \usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{booktabs}
 
 \titlespacing{\section}{0pt}{0.5em}{0.2em}
 \setlength{\parskip}{0.2em}
@@ -147,7 +149,47 @@ This list highlights how the project meets several criteria for complex engineer
 \end{enumerate}
 These steps give a clear path for us to follow, from planning out the network to actually testing if it works under different conditions.
 
+
 \newpage
+\addcontentsline{toc}{section}{Timeline}
+\section*{Timeline}
+
+The proposed timeline for the completion of the project is outlined below:
+
+\vspace{1em}
+\renewcommand{\arraystretch}{1.2}
+\setlength{\extrarowheight}{4pt}
+
+\begin{center}
+\begin{tabularx}{\textwidth}{
+    |>{\raggedright\arraybackslash}p{2.4cm}
+    |>{\raggedright\arraybackslash}p{4.2cm}
+    |>{\raggedright\arraybackslash}X|
+}
+\hline
+\textbf{Weeks} & \textbf{Phase} & \textbf{Key Activities/Outcomes} \\
+\hline
+Weeks 1--2 & Initial Literature Review & Meet with supervisor; gather background information; identify key research papers \\
+\hline
+Weeks 3--4 & Project Planning \& Project Proposal Submission & Detailed project planning, finalize objectives and deliverables, and submit the official project proposal \\
+\hline
+Weeks 5--6 & Network Design \& Topology & Design network layers in Cisco Packet Tracer, select devices, create network diagrams \\
+\hline
+Weeks 7--8 & Configuration: IPv6, VLANs, QoS & Configure IPv6 addressing and subnets, set up VLANs, implement Quality of Service policies \\
+\hline
+Weeks 9--10 & Redundancy, Security \& Testing & Set up EIGRP for IPv6, HSRP, and ACLs; test failover, segmentation, and security features \\
+\hline
+Weeks 11 & Documentation \& Final Report Preparation & Compile results, write and format the report, finalize project documentation \\
+\hline
+Week 12 & Project Submission & Submit the complete project and present findings as required \\
+\hline
+\end{tabularx}
+\end{center}
+
+
+
+
+
 
 \addcontentsline{toc}{section}{Expected Outcome}
 \section*{Expected Outcome}
@@ -161,6 +203,7 @@ If we achieve these results, we’ll have shown that our design can handle smart
 
 \vspace{1em}
 
+\newpage
 \addcontentsline{toc}{section}{Risks and Mitigation}
 \section*{Risks and Mitigation}
 \begin{enumerate}[label=8.\arabic*, nosep]
