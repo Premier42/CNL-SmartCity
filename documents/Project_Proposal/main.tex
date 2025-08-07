@@ -4,12 +4,13 @@
 \usepackage{graphicx}
 \usepackage{setspace}
 \usepackage{titling}
-\usepackage{mathptmx} % Times New Roman-like font for academic look
 \usepackage{titlesec}
-\usepackage{hyperref}
-\usepackage{enumitem}
 \usepackage{tabularx}
 \usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{newtxtext,newtxmath}
+\usepackage[hidelinks]{hyperref}
 
 \titlespacing{\section}{0pt}{0.5em}{0.2em}
 \setlength{\parskip}{0.2em}
@@ -49,7 +50,7 @@
     \textbf{Session:} Spring 2025
 \end{center}
 
-        {\large \textbf{Supervisor}}\\[0.08cm]
+        {\large \textbf{Submitted to}}\\[0.08cm]
         \rule{0.17\textwidth}{0.7pt}\\[0.11cm]
         {\textbf{Dr. Shahid Md. Asif Iqbal}}\\
         \textit{Professor}\\
@@ -58,7 +59,7 @@
         Faculty of Engineering\\[0.35cm]
 
         \vfill
-        {\normalsize July 2025}
+        {\normalsize August 2025}
     \end{center}
 \end{titlepage}
 
@@ -76,85 +77,74 @@
 
 % --------- MAIN CONTENT ----------
 
-\addcontentsline{toc}{section}{Project Overview}
-\section*{Project Overview}
-In today’s cities, a huge number of sensors collect all kinds of information about traffic, air quality, and even how full the bins are. Most networks in use still run on IPv4, which isn’t great at handling so many devices or making sure urgent messages get delivered first. With this project, we’re building a smart city network model in Cisco Packet Tracer that uses IPv6, sets up Quality of Service (QoS) for important data, and tests out edge (fog) routers for faster local processing. We want to show how these networking upgrades can make city sensor systems work better, especially during failures.
+\section*{Introduction}
+\phantomsection
+\addcontentsline{toc}{section}{Introduction}
+Modern cities deploy numerous sensors to collect information about traffic, air quality, and infrastructure usage. However, most networks still rely on IPv4, which struggles with address limitations and lacks proper support for IoT deployments. This project proposes designing a smart city network in Cisco Packet Tracer using IPv6 for unlimited addressing, Quality of Service (QoS) for prioritizing emergency traffic, and edge computing for faster local processing. 
 
-\vspace{1em}
+The network will demonstrate how these technologies can improve city sensor systems, especially during failures. Current IPv4 limitations include address exhaustion requiring complex NAT, lack of native IoT support, and centralized processing bottlenecks that our hierarchical IPv6 architecture with distributed fog computing will address.
 
-\addcontentsline{toc}{section}{Problem Statement}
-\section*{Problem Statement}
-Sensors are everywhere in modern cities, gathering information on everything from air quality to traffic flow to even the amount of trash in the bins. The smooth operation of a city depends on this knowledge. Many of the networks in use today, however, are still based on the antiquated IPv4 protocol, which is unable to meet the increasing demands for scalability and urgent communications, such as incident alerts. This project aims to develop a smart city network prototype in Cisco Packet Tracer that utilizes IPv6, integrates Quality of Service (QoS) mechanisms to prioritize essential traffic, and implements edge (fog) routers to speed up processing at the network's edge. Through this initiative, we want to show how these modern networking techniques can help cities get the most out of their sensor data, especially during failures or emergencies.
-
-\vspace{1em}
-
-\addcontentsline{toc}{section}{Objectives}
 \section*{Objectives}
-\begin{enumerate}[label=3.\arabic*, nosep]
-    \item Design a smart city network in Cisco Packet Tracer with layers for access, distribution, and core.
-    \item Implement IPv6 everywhere so there’s no risk of address exhaustion.
-    \item Set up Quality of Service to prioritize traffic, especially emergencies.
-    \item Use edge (fog) routers to process sensor data closer to where it’s collected.
-    \item Test network failover using HSRP and EIGRP for IPv6.
-    \item Keep IoT, public Wi-Fi, and admin devices on separate VLANs, protected by ACLs.
+\phantomsection
+\addcontentsline{toc}{section}{Objectives}
+\begin{enumerate}[label=2.\arabic*, nosep]
+    \item Design a smart city network in Cisco Packet Tracer with access, distribution, and core layers
+    \item Implement IPv6 everywhere to eliminate address exhaustion
+    \item Configure Quality of Service to prioritize emergency traffic
+    \item Deploy edge (fog) routers for local sensor data processing
+    \item Test network failover using HSRP and EIGRP for IPv6
+    \item Separate IoT, public Wi-Fi, and admin devices using VLANs and ACLs
+    \item Create email alerts through SMTP for critical events
 \end{enumerate}
-These objectives guide our project, making sure we focus on both the technical setup and real-life needs of a modern smart city network.
 
-\newpage
+\section*{Scope}
+\phantomsection
+\addcontentsline{toc}{section}{Scope}
+This project covers the design, implementation, and testing of a smart city IoT network prototype in Cisco Packet Tracer. It includes:
+\begin{itemize}[nosep]
+    \item Three-tier network architecture with IPv6 addressing
+    \item Security implementation through VLANs and ACLs
+    \item Basic network services (SMTP, HTTP)
+    \item Simulated IoT devices (traffic sensors, air quality monitors, smart bins)
+    \item Failover testing and QoS validation
+\end{itemize}
 
-\addcontentsline{toc}{section}{Key Benefits and Limitations}
-\section*{Key Benefits and Limitations}
+The project excludes physical layer considerations, advanced security features like IPSec, complex application development, and real-time analytics platforms to maintain focus on core networking concepts.
 
-\textbf{Strengths}
-\begin{enumerate}[label=4.\arabic*, nosep]
-    \item With IPv6, we can easily connect a lot more devices without the hassle of running out of addresses.
-    \item Implementing QoS makes sure that urgent messages, like emergency alerts, won’t get tangled up in network traffic.
-    \item By utilizing VLANs and ACLs, we can keep different areas of the network isolated and more secure.
-    \item Setting up edge routers near the sensors allows for quicker data processing and helps prevent overloading the main network.
-\end{enumerate}
-\textbf{Challenges}
-\begin{enumerate}[label=4.\arabic*, nosep]
-    \item Packet Tracer is a simulator, so it can’t capture every detail you’d see in a real network.
-    \item Wireless issues and interference can’t really be tested in this environment.
-    \item The MQTT protocol in Packet Tracer is basic compared to what’s used in practice.
-    \item NAT64 in the simulation doesn’t always work like it does on actual devices.
-\end{enumerate}
-This section shows that while our project has some strong points, we’re also aware of the real-world and simulation limits we have to work within.
+\section*{Tools and Technologies}
+\phantomsection
+\addcontentsline{toc}{section}{Tools and Technologies}
+\textbf{Primary Platform:} Cisco Packet Tracer 8.2.x with IoT device templates
 
-\vspace{1em}
+\textbf{Networking Protocols:}
+\begin{itemize}[nosep]
+    \item IPv6 (RFC 8200) for addressing
+    \item EIGRP for IPv6 routing
+    \item HSRP for redundancy
+    \item IEEE 802.1Q for VLANs
+    \item DiffServ for QoS
+\end{itemize}
 
-\addcontentsline{toc}{section}{Features of a Complex Problem (5 out of 7 Criteria Met)}
-\section*{Features of a Complex Problem (5 out of 7 Criteria Met)}
-Our project hits several points that make it a challenging, real-world networking problem:
+\textbf{Services:} DHCPv6, SLAAC, SMTP, HTTP, ICMPv6
+
+\textbf{Security:} Extended ACLs, VLAN segmentation, Port security
+
+\section*{Key Features}
+\phantomsection
+\addcontentsline{toc}{section}{Key Features}
 \begin{enumerate}[label=5.\arabic*, nosep]
-    \item \textbf{Conflicting Requirements:} We need the network to deliver important data quickly, but also keep it efficient for regular traffic.
-    \item \textbf{Multiple Stakeholders:} The network is used by emergency teams, city staff, and the public.
-    \item \textbf{Depth of Analysis:} Routing, IPv6 setup, QoS, and failure testing all take planning and technical work.
-    \item \textbf{Extensive Knowledge Base:} We apply what we learned about IoT, protocols, security, and monitoring.
-    \item \textbf{Interdependence:} Sensors, edge routers, and core routers all have to work together for the network to function.
+    \item \textbf{IPv6 Implementation:} Native IPv6 with /48 for sites and /64 for subnets, eliminating NAT complexity
+    \item \textbf{Quality of Service:} Four-tier traffic classification (Network Control, Emergency Services, Standard IoT, Best Effort)
+    \item \textbf{Edge Computing:} Fog routers near sensors for local processing and reduced latency
+    \item \textbf{Redundancy:} HSRP with sub-second failover and EIGRP for dynamic routing
+    \item \textbf{Security:} VLAN isolation between device types with ACL-based access control
+    \item \textbf{Monitoring:} SMTP alerts for critical events and HTTP dashboard for status
 \end{enumerate}
-This list highlights how the project meets several criteria for complex engineering tasks. It’s not just about building the network, but also thinking about how all the parts fit and work together.
-
-\vspace{1em}
-
-\addcontentsline{toc}{section}{Methodology}
-\section*{Methodology}
-\begin{enumerate}[label=6.\arabic*, nosep]
-    \item Build the network in Cisco Packet Tracer, including all device layers.
-    \item Set up IPv6 addressing and subnets.
-    \item Configure QoS so emergency data is prioritized.
-    \item Use EIGRP for IPv6 and HSRP for redundancy.
-    \item Separate devices with VLANs and secure with ACLs.
-    \item Test the setup by simulating failures and heavy traffic.
-\end{enumerate}
-These steps give a clear path for us to follow, from planning out the network to actually testing if it works under different conditions.
 
 
-\newpage
-\addcontentsline{toc}{section}{Timeline}
-\section*{Timeline}
-
-The proposed timeline for the completion of the project is outlined below:
+\section*{Project Timeline}
+\phantomsection
+\addcontentsline{toc}{section}{Project Timeline}
 
 \vspace{1em}
 \renewcommand{\arraystretch}{1.2}
@@ -167,64 +157,84 @@ The proposed timeline for the completion of the project is outlined below:
     |>{\raggedright\arraybackslash}X|
 }
 \hline
-\textbf{Weeks} & \textbf{Phase} & \textbf{Key Activities/Outcomes} \\
+\textbf{Weeks} & \textbf{Phase} & \textbf{Key Activities} \\
 \hline
-Weeks 1--2 & Initial Literature Review & Meet with supervisor; gather background information; identify key research papers \\
+Weeks 1--2 & Literature Review & Research smart city networks and IPv6 deployments \\
 \hline
-Weeks 3--4 & Project Planning \& Project Proposal Submission & Detailed project planning, finalize objectives and deliverables, and submit the official project proposal \\
+Weeks 3--4 & Project Planning & Finalize objectives and submit proposal \\
 \hline
-Weeks 5--6 & Network Design \& Topology & Design network layers in Cisco Packet Tracer, select devices, create network diagrams \\
+Weeks 5--6 & Network Design & Create topology in Packet Tracer \\
 \hline
-Weeks 7--8 & Configuration: IPv6, VLANs, QoS & Configure IPv6 addressing and subnets, set up VLANs, implement Quality of Service policies \\
+Weeks 7--8 & Configuration & Implement IPv6, VLANs, and QoS \\
 \hline
-Weeks 9--10 & Redundancy, Security \& Testing & Set up EIGRP for IPv6, HSRP, and ACLs; test failover, segmentation, and security features \\
+Weeks 9--10 & Testing & Validate failover and security features \\
 \hline
-Weeks 11 & Documentation \& Final Report Preparation & Compile results, write and format the report, finalize project documentation \\
+Week 11 & Documentation & Compile results and prepare report \\
 \hline
-Week 12 & Project Submission & Submit the complete project and present findings as required \\
+Week 12 & Submission & Submit project and presentation \\
 \hline
 \end{tabularx}
 \end{center}
 
-
-
-
-
-
-\addcontentsline{toc}{section}{Expected Outcome}
-\section*{Expected Outcome}
+\section*{Expected Outcomes}
+\phantomsection
+\addcontentsline{toc}{section}{Expected Outcomes}
 \begin{enumerate}[label=7.\arabic*, nosep]
-    \item A working smart city network that supports many devices.
-    \item Data like emergency alerts is delivered quickly, even if something fails.
-    \item The network can recover from problems automatically.
-    \item Each part of the network (IoT, public Wi-Fi, admin) is kept separate and secure.
+    \item A functional smart city network supporting 15+ IoT devices
+    \item Demonstrated sub-second failover during router failures
+    \item Validated QoS ensuring emergency traffic priority
+    \item Complete network documentation with configuration templates
+    \item Hands-on experience with enterprise networking technologies
+    \item Reference architecture for real-world smart city deployments
 \end{enumerate}
-If we achieve these results, we’ll have shown that our design can handle smart city demands and is ready for further real-world testing.
 
-\vspace{1em}
+The project will validate that IPv6 and edge computing effectively address smart city requirements while providing practical experience for team members.
 
-\newpage
-\addcontentsline{toc}{section}{Risks and Mitigation}
-\section*{Risks and Mitigation}
-\begin{enumerate}[label=8.\arabic*, nosep]
-    \item \textbf{Simulation limits:} Packet Tracer can’t do everything a real network can.
-    \textit{Mitigation:} Use scripting and MQTT basics to make traffic more realistic.
-    \item \textbf{QoS visibility:} Measuring real packet delays is tough in simulation.
-    \textit{Mitigation:} Rely on simulation analytics and verify configuration.
-    \item \textbf{IPv6 config errors:} Manual address setup can be error-prone.
-    \textit{Mitigation:} Plan addresses carefully and check twice.
-\end{enumerate}
-Being aware of these risks helps us prepare solutions in advance, so our project stays on track even if we run into problems.
+\section*{Complex Engineering Problem Attributes}
+\phantomsection
+\addcontentsline{toc}{section}{Complex Engineering Problem Attributes}
 
-\vspace{1em}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabularx}{\textwidth}{|p{4.2cm}|X|}
+\hline
+\textbf{Attribute} & \textbf{How Project Meets It} \\
+\hline
+Conflicting Requirements & Balance emergency priority with fair public access \\
+\hline
+Multiple Stakeholders & IoT sensors, city staff, admin PCs, and public users share the network \\
+\hline
+Depth of Analysis & Requires IPv6, VLANs, ACLs, routing, and QoS knowledge \\
+\hline
+Extensive Knowledge & Combines networking, security, and IoT concepts \\
+\hline
+Interdependence & All components depend on each other to function \\
+\hline
+Public Impact & Improves city operations and emergency response \\
+\hline
+Innovation & Combines IPv6 and edge computing for IoT networks \\
+\hline
+\end{tabularx}
+\end{center}
 
-\addcontentsline{toc}{section}{References}
-\section*{References}
-\begin{enumerate}[label=9.\arabic*, nosep]
-    \item Cisco Systems. ``Packet Tracer Labs and IoT Modules.''
-    \item RFC 8200: Internet Protocol, Version 6 (IPv6) Specification
-    \item IEEE 802.1Q VLAN Tagging Standard
-    \item IoT-A Architecture Reference Model, European Commission
-\end{enumerate}
+\section*{Limitations}
+\phantomsection
+\addcontentsline{toc}{section}{Limitations}
+\begin{itemize}[nosep]
+    \item \textbf{Simulation constraints:} Packet Tracer cannot replicate all real-world network behaviors
+    \item \textbf{Scale:} Limited to 15-20 devices versus thousands in actual cities
+    \item \textbf{Wireless:} Cannot test real interference and propagation issues
+    \item \textbf{Services:} Basic SMTP/HTTP compared to production systems
+    \item \textbf{Security:} No encryption or advanced threat protection
+\end{itemize}
+
+Despite these limitations, the project effectively demonstrates core concepts that scale to production environments.
+
+\section*{Conclusion}
+\phantomsection
+\addcontentsline{toc}{section}{Conclusion}
+This project addresses critical networking challenges faced by modern smart cities through a comprehensive IPv6-based IoT network with QoS and edge computing. The implementation demonstrates practical solutions for address exhaustion, traffic prioritization, and network resilience. By combining current technologies with proper design, we show how cities can build efficient sensor networks that improve urban operations and emergency response.
+
+The hands-on experience gained and documented best practices will serve as valuable resources for future smart city deployments. While simulation limitations exist, the core concepts and architectures directly apply to real-world implementations, contributing to the development of more sustainable and resilient urban environments.
 
 \end{document}
