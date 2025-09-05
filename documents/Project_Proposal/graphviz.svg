@@ -1,0 +1,180 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="499pt" height="260pt" viewBox="0.00 0.00 498.80 260.00">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 256)">
+<title>SmartCity</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-256 494.8,-256 494.8,4 -4,4"/>
+<!-- CORE -->
+<g id="node1" class="node">
+<title>CORE</title>
+<polygon fill="lightblue" stroke="black" points="353.83,-252 276.18,-252 276.18,-216 353.83,-216 353.83,-252"/>
+<text text-anchor="middle" x="315" y="-231" font-family="Times,serif" font-size="10.00">🌐 Core Router</text>
+</g>
+<!-- DR1 -->
+<g id="node2" class="node">
+<title>DR1</title>
+<polygon fill="lightblue" stroke="black" points="168.89,-180 65.12,-180 65.12,-144 168.89,-144 168.89,-180"/>
+<text text-anchor="middle" x="117" y="-159" font-family="Times,serif" font-size="10.00">Distribution Router A</text>
+</g>
+<!-- CORE&#45;&gt;DR1 -->
+<g id="edge1" class="edge">
+<title>CORE-&gt;DR1</title>
+<path fill="none" stroke="black" d="M275.89,-219.17C247.64,-209.18 208.97,-195.51 176.85,-184.16"/>
+<polygon fill="black" stroke="black" points="178.25,-180.94 167.66,-180.91 175.92,-187.54 178.25,-180.94"/>
+</g>
+<!-- DR2 -->
+<g id="node3" class="node">
+<title>DR2</title>
+<polygon fill="lightblue" stroke="black" points="314.62,-180 211.39,-180 211.39,-144 314.62,-144 314.62,-180"/>
+<text text-anchor="middle" x="263" y="-159" font-family="Times,serif" font-size="10.00">Distribution Router B</text>
+</g>
+<!-- CORE&#45;&gt;DR2 -->
+<g id="edge2" class="edge">
+<title>CORE-&gt;DR2</title>
+<path fill="none" stroke="black" d="M302.15,-215.7C296.23,-207.73 289.08,-198.1 282.52,-189.26"/>
+<polygon fill="black" stroke="black" points="285.39,-187.26 276.61,-181.32 279.77,-191.43 285.39,-187.26"/>
+</g>
+<!-- SMTP -->
+<g id="node14" class="node">
+<title>SMTP</title>
+<path fill="none" stroke="black" d="M391.37,-180C391.37,-180 344.64,-180 344.64,-180 338.64,-180 332.64,-174 332.64,-168 332.64,-168 332.64,-156 332.64,-156 332.64,-150 338.64,-144 344.64,-144 344.64,-144 391.37,-144 391.37,-144 397.37,-144 403.37,-150 403.37,-156 403.37,-156 403.37,-168 403.37,-168 403.37,-174 397.37,-180 391.37,-180"/>
+<text text-anchor="middle" x="368" y="-159" font-family="Times,serif" font-size="10.00">SMTP Server</text>
+</g>
+<!-- CORE&#45;&gt;SMTP -->
+<g id="edge3" class="edge">
+<title>CORE-&gt;SMTP</title>
+<path fill="none" stroke="black" d="M328.11,-215.7C334.14,-207.73 341.43,-198.1 348.12,-189.26"/>
+<polygon fill="black" stroke="black" points="350.89,-191.4 354.14,-181.31 345.31,-187.17 350.89,-191.4"/>
+</g>
+<!-- HTTP -->
+<g id="node15" class="node">
+<title>HTTP</title>
+<path fill="none" stroke="black" d="M478.8,-180C478.8,-180 433.21,-180 433.21,-180 427.21,-180 421.21,-174 421.21,-168 421.21,-168 421.21,-156 421.21,-156 421.21,-150 427.21,-144 433.21,-144 433.21,-144 478.8,-144 478.8,-144 484.8,-144 490.8,-150 490.8,-156 490.8,-156 490.8,-168 490.8,-168 490.8,-174 484.8,-180 478.8,-180"/>
+<text text-anchor="middle" x="456" y="-159" font-family="Times,serif" font-size="10.00">HTTP Server</text>
+</g>
+<!-- CORE&#45;&gt;HTTP -->
+<g id="edge4" class="edge">
+<title>CORE-&gt;HTTP</title>
+<path fill="none" stroke="black" d="M350.22,-215.52C368.61,-206.39 391.32,-195.11 410.98,-185.35"/>
+<polygon fill="black" stroke="black" points="412.48,-188.52 419.88,-180.93 409.37,-182.25 412.48,-188.52"/>
+</g>
+<!-- SW1 -->
+<g id="node4" class="node">
+<title>SW1</title>
+<polygon fill="lightgreen" stroke="black" points="66,-108 12,-108 12,-72 66,-72 66,-108"/>
+<text text-anchor="middle" x="39" y="-87" font-family="Times,serif" font-size="10.00">Switch 1</text>
+</g>
+<!-- DR1&#45;&gt;SW1 -->
+<g id="edge5" class="edge">
+<title>DR1-&gt;SW1</title>
+<path fill="none" stroke="black" d="M97.72,-143.7C88.35,-135.28 76.91,-125.02 66.63,-115.79"/>
+<polygon fill="black" stroke="black" points="69.24,-113.43 59.46,-109.36 64.57,-118.64 69.24,-113.43"/>
+</g>
+<!-- SW2 -->
+<g id="node5" class="node">
+<title>SW2</title>
+<polygon fill="lightgreen" stroke="black" points="144,-108 90,-108 90,-72 144,-72 144,-108"/>
+<text text-anchor="middle" x="117" y="-87" font-family="Times,serif" font-size="10.00">Switch 2</text>
+</g>
+<!-- DR1&#45;&gt;SW2 -->
+<g id="edge6" class="edge">
+<title>DR1-&gt;SW2</title>
+<path fill="none" stroke="black" d="M117,-143.7C117,-136.41 117,-127.73 117,-119.54"/>
+<polygon fill="black" stroke="black" points="120.5,-119.62 117,-109.62 113.5,-119.62 120.5,-119.62"/>
+</g>
+<!-- SW3 -->
+<g id="node6" class="node">
+<title>SW3</title>
+<polygon fill="lightgreen" stroke="black" points="290,-108 236,-108 236,-72 290,-72 290,-108"/>
+<text text-anchor="middle" x="263" y="-87" font-family="Times,serif" font-size="10.00">Switch 3</text>
+</g>
+<!-- DR2&#45;&gt;SW3 -->
+<g id="edge7" class="edge">
+<title>DR2-&gt;SW3</title>
+<path fill="none" stroke="black" d="M263,-143.7C263,-136.41 263,-127.73 263,-119.54"/>
+<polygon fill="black" stroke="black" points="266.5,-119.62 263,-109.62 259.5,-119.62 266.5,-119.62"/>
+</g>
+<!-- SW4 -->
+<g id="node7" class="node">
+<title>SW4</title>
+<polygon fill="lightgreen" stroke="black" points="391,-108 337,-108 337,-72 391,-72 391,-108"/>
+<text text-anchor="middle" x="364" y="-87" font-family="Times,serif" font-size="10.00">Switch 4</text>
+</g>
+<!-- DR2&#45;&gt;SW4 -->
+<g id="edge8" class="edge">
+<title>DR2-&gt;SW4</title>
+<path fill="none" stroke="black" d="M288.23,-143.52C300.86,-134.76 316.33,-124.04 329.99,-114.58"/>
+<polygon fill="black" stroke="black" points="331.63,-117.7 337.86,-109.12 327.64,-111.94 331.63,-117.7"/>
+</g>
+<!-- PC1 -->
+<g id="node8" class="node">
+<title>PC1</title>
+<path fill="none" stroke="black" d="M54.01,-36C54.01,-36 12,-36 12,-36 6,-36 0,-30 0,-24 0,-24 0,-12 0,-12 0,-6 6,0 12,0 12,0 54.01,0 54.01,0 60.01,0 66.01,-6 66.01,-12 66.01,-12 66.01,-24 66.01,-24 66.01,-30 60.01,-36 54.01,-36"/>
+<text text-anchor="middle" x="33" y="-15" font-family="Times,serif" font-size="10.00">Admin PC 1</text>
+</g>
+<!-- SW1&#45;&gt;PC1 -->
+<g id="edge9" class="edge">
+<title>SW1-&gt;PC1</title>
+<path fill="none" stroke="black" d="M37.52,-71.7C36.9,-64.41 36.15,-55.73 35.45,-47.54"/>
+<polygon fill="black" stroke="black" points="38.94,-47.28 34.6,-37.61 31.97,-47.87 38.94,-47.28"/>
+</g>
+<!-- PC2 -->
+<g id="node9" class="node">
+<title>PC2</title>
+<path fill="none" stroke="black" d="M138.01,-36C138.01,-36 96,-36 96,-36 90,-36 84,-30 84,-24 84,-24 84,-12 84,-12 84,-6 90,0 96,0 96,0 138.01,0 138.01,0 144.01,0 150.01,-6 150.01,-12 150.01,-12 150.01,-24 150.01,-24 150.01,-30 144.01,-36 138.01,-36"/>
+<text text-anchor="middle" x="117" y="-15" font-family="Times,serif" font-size="10.00">Admin PC 2</text>
+</g>
+<!-- SW2&#45;&gt;PC2 -->
+<g id="edge10" class="edge">
+<title>SW2-&gt;PC2</title>
+<path fill="none" stroke="black" d="M117,-71.7C117,-64.41 117,-55.73 117,-47.54"/>
+<polygon fill="black" stroke="black" points="120.5,-47.62 117,-37.62 113.5,-47.62 120.5,-47.62"/>
+</g>
+<!-- S1 -->
+<g id="node10" class="node">
+<title>S1</title>
+<path fill="none" stroke="black" d="M229.74,-36C229.74,-36 180.27,-36 180.27,-36 174.27,-36 168.27,-30 168.27,-24 168.27,-24 168.27,-12 168.27,-12 168.27,-6 174.27,0 180.27,0 180.27,0 229.74,0 229.74,0 235.74,0 241.74,-6 241.74,-12 241.74,-12 241.74,-24 241.74,-24 241.74,-30 235.74,-36 229.74,-36"/>
+<text text-anchor="middle" x="205" y="-15" font-family="Times,serif" font-size="10.00">Traffic Sensor</text>
+</g>
+<!-- SW3&#45;&gt;S1 -->
+<g id="edge11" class="edge">
+<title>SW3-&gt;S1</title>
+<path fill="none" stroke="black" d="M248.67,-71.7C241.93,-63.56 233.75,-53.69 226.3,-44.7"/>
+<polygon fill="black" stroke="black" points="229.22,-42.74 220.14,-37.27 223.83,-47.2 229.22,-42.74"/>
+</g>
+<!-- S2 -->
+<g id="node11" class="node">
+<title>S2</title>
+<path fill="none" stroke="black" d="M302,-36C302,-36 272,-36 272,-36 266,-36 260,-30 260,-24 260,-24 260,-12 260,-12 260,-6 266,0 272,0 272,0 302,0 302,0 308,0 314,-6 314,-12 314,-12 314,-24 314,-24 314,-30 308,-36 302,-36"/>
+<text text-anchor="middle" x="287" y="-15" font-family="Times,serif" font-size="10.00">Camera</text>
+</g>
+<!-- SW3&#45;&gt;S2 -->
+<g id="edge12" class="edge">
+<title>SW3-&gt;S2</title>
+<path fill="none" stroke="black" d="M268.94,-71.7C271.5,-64.24 274.55,-55.32 277.42,-46.97"/>
+<polygon fill="black" stroke="black" points="280.72,-48.13 280.65,-37.54 274.1,-45.86 280.72,-48.13"/>
+</g>
+<!-- S3 -->
+<g id="node12" class="node">
+<title>S3</title>
+<path fill="none" stroke="black" d="M383.75,-36C383.75,-36 344.26,-36 344.26,-36 338.26,-36 332.26,-30 332.26,-24 332.26,-24 332.26,-12 332.26,-12 332.26,-6 338.26,0 344.26,0 344.26,0 383.75,0 383.75,0 389.75,0 395.75,-6 395.75,-12 395.75,-12 395.75,-24 395.75,-24 395.75,-30 389.75,-36 383.75,-36"/>
+<text text-anchor="middle" x="364" y="-15" font-family="Times,serif" font-size="10.00">Street Light</text>
+</g>
+<!-- SW4&#45;&gt;S3 -->
+<g id="edge13" class="edge">
+<title>SW4-&gt;S3</title>
+<path fill="none" stroke="black" d="M364,-71.7C364,-64.41 364,-55.73 364,-47.54"/>
+<polygon fill="black" stroke="black" points="367.5,-47.62 364,-37.62 360.5,-47.62 367.5,-47.62"/>
+</g>
+<!-- S4 -->
+<g id="node13" class="node">
+<title>S4</title>
+<path fill="none" stroke="black" d="M458.42,-36C458.42,-36 425.59,-36 425.59,-36 419.59,-36 413.59,-30 413.59,-24 413.59,-24 413.59,-12 413.59,-12 413.59,-6 419.59,0 425.59,0 425.59,0 458.42,0 458.42,0 464.42,0 470.42,-6 470.42,-12 470.42,-12 470.42,-24 470.42,-24 470.42,-30 464.42,-36 458.42,-36"/>
+<text text-anchor="middle" x="442" y="-15" font-family="Times,serif" font-size="10.00">Smart Bin</text>
+</g>
+<!-- SW4&#45;&gt;S4 -->
+<g id="edge14" class="edge">
+<title>SW4-&gt;S4</title>
+<path fill="none" stroke="black" d="M383.29,-71.7C392.66,-63.28 404.1,-53.02 414.38,-43.79"/>
+<polygon fill="black" stroke="black" points="416.44,-46.64 421.55,-37.36 411.77,-41.43 416.44,-46.64"/>
+</g>
+</g>
+</svg>
