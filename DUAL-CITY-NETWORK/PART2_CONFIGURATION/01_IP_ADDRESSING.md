@@ -142,10 +142,15 @@
 
 | Link | Router A | Interface | IP Address | Router B | Interface | IP Address | Subnet |
 |------|----------|-----------|------------|----------|-----------|------------|--------|
-| Core ↔ Border | `CityA-Core-R1` | `Gig1/1` | `10.0.0.1/30` | `CityA-Border-R1` | `Gig0/0` | `10.0.0.2/30` | `10.0.0.0/30` |
-| Core ↔ Gov | `CityA-Core-R1` | `Gig0/2` | `10.0.1.1/30` | `CityA-Gov-R1` | `Gig0/0` | `10.0.1.2/30` | `10.0.1.0/30` |
-| Core ↔ Res | `CityA-Core-R1` | `Gig0/3` | `10.0.2.1/30` | `CityA-Res-R1` | `Gig0/0` | `10.0.2.2/30` | `10.0.2.0/30` |
-| Core ↔ Com | `CityA-Core-R1` | `Gig1/0` | `10.0.3.1/30` | `CityA-Com-R1` | `Gig0/0` | `10.0.3.2/30` | `10.0.3.0/30` |
+| Core ↔ Border | `CityA-Core-R1` | `Gig0/2` | `10.0.0.1/30` | `CityA-Border-R1` | `Gig0/0` | `10.0.0.2/30` | `10.0.0.0/30` |
+| Core-SW1 ↔ Gov | `CityA-Core-SW1` | `Gig1/0/2` | N/A (L2) | `CityA-Gov-R1` | `Gig0/0` | `10.0.1.2/30` | `10.0.1.0/30` |
+| Core-SW1 ↔ Res | `CityA-Core-SW1` | `Gig1/0/3` | N/A (L2) | `CityA-Res-R1` | `Gig0/0` | `10.0.2.2/30` | `10.0.2.0/30` |
+| Core-SW2 ↔ Com | `CityA-Core-SW2` | `Gig1/0/3` | N/A (L2) | `CityA-Com-R1` | `Gig0/0` | `10.0.3.2/30` | `10.0.3.0/30` |
+
+**IMPORTANT:** Cisco 2911 has only 3 GigabitEthernet ports (Gig0/0, Gig0/1, Gig0/2)
+- **Gig0/0 & Gig0/1**: Trunk links to Core-SW1 and Core-SW2 (no IP, carries VLANs)
+- **Gig0/2**: Point-to-point link to Border-R1
+- **Zone routers**: Connect to core switches, OSPF over Layer 2
 
 **Why /30 subnets?** - Point-to-point links only need 2 usable IPs (efficient)
 

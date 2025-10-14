@@ -149,42 +149,75 @@ If you have PT 8.2.0 or newer, you can use:
 
 ### **The Reality:**
 
-**Packet Tracer does NOT have "Cell Tower" devices**
-- No 4G/5G/LTE devices
-- No dedicated cellular infrastructure
+**Packet Tracer does NOT have functional "Cell Tower" devices with Ethernet**
+- Some PT versions may show "Cell Tower" in device list
+- BUT: These devices are **wireless-only** (no Ethernet port)
+- Cannot be connected via cable to switches
+- No dedicated cellular infrastructure with wired backhaul
 
 ### **The Solution:**
 
-Use **Linksys WRT300N** (Wireless Router) as cellular simulator
+Use **Linksys WRT300N** (Wireless Router) as cellular tower simulator
+
+### **Why Linksys WRT300N:**
+- ✅ Has physical Ethernet port (**Internet/WAN port**)
+- ✅ Supports wireless clients (smartphones, tablets)
+- ✅ Available in all PT versions (8.0, 8.1, 8.2+)
+- ✅ Can be configured as access point
+- ✅ Simulates cellular backhaul connection
 
 ### **How to Configure:**
 
 **Step 1:** Place **Linksys WRT300N**
+```
+Network Devices → Wireless Devices → Linksys WRT300N
+```
 
 **Step 2:** Label as `CityA-CellTower-1`
 
-**Step 3:** Configure:
+**Step 3:** Connect to Switch
+```
+Cable: Copper Straight-Through
+From: CityA-Res-SW2 FastEthernet0/1
+To: Linksys WRT300N "Internet" port (WAN port)
+```
 
-1. Click device → **Config** tab → **Interface**
-2. **Wired:**
-   - Port 1 (Ethernet): 192.168.20.60
-   - Gateway: 192.168.20.1
+**Step 4:** Configure Network Settings
 
-3. Click **Wireless** tab:
-   - SSID: `CityA-4G-LTE`
-   - Authentication: WPA2-PSK
-   - Password: `CellularPass2024`
-   - Channel: 11
+1. Click device → **Config** tab → **Internet** (Setup)
+2. **Connection Type:** Static IP
+3. **Internet IP Address:** 192.168.20.60
+4. **Subnet Mask:** 255.255.255.0
+5. **Default Gateway:** 192.168.20.1
 
-4. **Disable DHCP Server** (important!):
-   - Config → DHCP
-   - Turn OFF (router DHCP provides IPs)
+**Step 5:** Configure Wireless
 
-**Step 4:** Connect:
-- Wired: Connect Port 1 to switch
-- Wireless: Smartphones auto-connect
+1. Click **Wireless** tab
+2. **Network Mode:** Mixed
+3. **Network Name (SSID):** `CityA-4G-LTE`
+4. **Channel:** 11
+5. **SSID Broadcast:** Enable
 
-**Result:** Simulates cellular backhaul perfectly!
+**Step 6:** Configure Security
+
+1. **Security Mode:** WPA2-PSK
+2. **Passphrase:** `Cellular2024`
+
+**Step 7:** Disable DHCP Server (IMPORTANT!)
+
+1. Config → **DHCP**
+2. **DHCP Server:** Disabled
+3. Why? Network router will provide DHCP, not the WRT300N
+
+**Step 8:** Connect Mobile Devices
+
+1. Click smartphone/tablet
+2. Config → Wireless0
+3. Select SSID: `CityA-4G-LTE`
+4. Enter password: `Cellular2024`
+5. Should receive IP from network DHCP (192.168.20.100+)
+
+**Result:** Simulates cellular tower with wired backhaul perfectly!
 
 ---
 

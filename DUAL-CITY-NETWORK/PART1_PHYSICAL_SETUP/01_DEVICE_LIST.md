@@ -79,62 +79,114 @@
 
 ### **WIRELESS DEVICES (4 devices)**
 
-| # | Device Name | Model | Purpose | Location |
-|---|-------------|-------|---------|----------|
-| 1 | `CityA-CellTower-1` | **Linksys WRT300N** | 4G/LTE cellular backhaul (simulated) | Residential zone |
-| 2 | `CityA-WiFi-Gov-AP1` | **AccessPoint-PT** or **Linksys WRT300N** | Government building WiFi | Government zone |
-| 3 | `CityA-WiFi-Pub-AP1` | **AccessPoint-PT** or **Linksys WRT300N** | Public WiFi hotspot | Commercial zone |
-| 4 | `CityA-WiFi-Res-AP1` | **AccessPoint-PT** or **Linksys WRT300N** | Residential WiFi | Residential zone |
+| # | Device Name | Model | Purpose | Location | Wired Port |
+|---|-------------|-------|---------|----------|------------|
+| 1 | `CityA-CellTower-1` | **Linksys WRT300N** | 4G/LTE cellular coverage (simulated) | Residential zone | Internet port |
+| 2 | `CityA-WiFi-Gov-AP1` | **AccessPoint-PT** | Government building WiFi | Government zone | Ethernet1 |
+| 3 | `CityA-WiFi-Pub-AP1` | **AccessPoint-PT** | Public WiFi hotspot | Commercial zone | Ethernet1 |
+| 4 | `CityA-WiFi-Res-AP1` | **AccessPoint-PT** | Residential WiFi | Residential zone | Ethernet1 |
 
-**IMPORTANT - Cellular Tower Simulation:**
-- ⚠️ Packet Tracer has NO dedicated "Cell Tower" device in any version
-- ✅ Use **Linksys WRT300N** configured as wireless router (access point mode)
+**CRITICAL - Cellular Tower Reality:**
+- ⚠️ **Packet Tracer has NO dedicated "Cell Tower" device with Ethernet in ANY version**
+- ⚠️ If "Cell Tower" exists in PT 8.2.2+, it's wireless-only (no Ethernet port)
+- ✅ **SOLUTION: Use Linksys WRT300N** configured as cellular access point
+- ✅ **WRT300N has "Internet" port** for wired backhaul connection
 - Configure SSID as `CityA-4G-LTE` to simulate cellular network
-- Disable DHCP server on the WRT300N (router will provide DHCP)
-- See `../COMPATIBILITY_GUIDE.md` for detailed cellular setup
+- Disable DHCP server on WRT300N (router will provide DHCP)
+
+**How to Setup Linksys WRT300N as Cell Tower:**
+1. Place Linksys WRT300N from Network Devices → Wireless Devices
+2. Connect **Internet port** to switch via Ethernet cable
+3. Label as "CityA-CellTower-1"
+4. Configure wireless SSID: "CityA-4G-LTE"
+5. Disable DHCP server (use network DHCP instead)
+
+**Why Linksys WRT300N:**
+- ✅ Has physical Ethernet port (Internet/WAN port)
+- ✅ Supports wireless clients (smartphones, tablets)
+- ✅ Available in all PT versions
+- ✅ Can be configured to simulate cellular backhaul
 
 ---
 
 ### **IoT DEVICES (15 devices)**
 
-**⚠️ COMPATIBILITY ALERT:**
-- **PT 8.2+**: IoT devices fully available (Motion Detector, Environmental Monitor, etc.)
-- **PT 8.0/8.1**: IoT devices NOT available → Use **PC-PT** as substitute
-- **Workaround**: Place **PC-PT**, label as `IoT-[Type]-[Number]`, configure static IP
-- **Impact**: None for demonstration - PC-PT works perfectly as IoT simulator
+**🔌 CRITICAL - CONNECTIVITY ALERT:**
+- ⚠️ **Many IoT devices are WIRELESS-ONLY** (Webcam, Motion Detector, GPS, etc.)
+- ⚠️ **Wireless devices cannot be connected via Ethernet cable**
+- ✅ **Solution: Use SBC-PT (Single Board Computer) for wired IoT**
+- ✅ **Alternative: Use PC-PT** (works in all versions, has Ethernet)
+- 📖 **See:** `IOT_DEVICE_CONNECTIVITY_GUIDE.md` for complete details
 
-#### Government Zone (3 devices)
-| # | Device Name | Model | Purpose | VLAN |
-|---|-------------|-------|---------|------|
-| 1 | `CityA-Gov-Camera-1` | **Webcam** or **IoT-PT** | Security camera | VLAN 60 |
-| 2 | `CityA-Gov-Camera-2` | **Webcam** or **IoT-PT** | Security camera | VLAN 60 |
-| 3 | `CityA-Fire-Sensor-1` | **IoT-PT** (Motion Detector) | Fire alarm sensor | VLAN 60 |
+**🎯 RECOMMENDED DEVICE MODELS (All have Ethernet ports):**
 
-#### Transportation Zone (5 devices)
-| # | Device Name | Model | Purpose | VLAN |
-|---|-------------|-------|---------|------|
-| 4 | `CityA-TrafficLight-1` | **IoT-PT** (Smart Home Device) | Traffic light controller | VLAN 40 |
-| 5 | `CityA-TrafficLight-2` | **IoT-PT** (Smart Home Device) | Traffic light controller | VLAN 40 |
-| 6 | `CityA-ParkingSensor-1` | **IoT-PT** (Motion Detector) | Smart parking sensor | VLAN 40 |
-| 7 | `CityA-ParkingSensor-2` | **IoT-PT** (Motion Detector) | Smart parking sensor | VLAN 40 |
-| 8 | `CityA-BusTracker-1` | **IoT-PT** (GPS module) | Bus location tracker | VLAN 40 |
+#### Government Zone (3 devices) - **Use SBC-PT**
+| # | Device Name | Model | Purpose | VLAN | Connection |
+|---|-------------|-------|---------|------|-----------|
+| 1 | `CityA-Gov-Camera-1` | **SBC-PT** | Security camera | VLAN 60 | FastEthernet0 |
+| 2 | `CityA-Gov-Camera-2` | **SBC-PT** | Security camera | VLAN 60 | FastEthernet0 |
+| 3 | `CityA-Fire-Sensor-1` | **SBC-PT** | Fire alarm sensor | VLAN 60 | FastEthernet0 |
 
-#### Utilities Zone (4 devices)
-| # | Device Name | Model | Purpose | VLAN |
-|---|-------------|-------|---------|------|
-| 9 | `CityA-SmartGrid-1` | **IoT-PT** (Environmental Monitor) | Power grid sensor | VLAN 70 |
-| 10 | `CityA-SmartGrid-2` | **IoT-PT** (Environmental Monitor) | Power grid sensor | VLAN 70 |
-| 11 | `CityA-WaterMonitor-1` | **IoT-PT** (Humidity Sensor) | Water quality monitor | VLAN 70 |
-| 12 | `CityA-WaterMonitor-2` | **IoT-PT** (Humidity Sensor) | Water quality monitor | VLAN 70 |
+**Location in PT:** End Devices → IoT Devices → SBC
 
-#### Residential Zone (3 devices)
-| # | Device Name | Model | Purpose | VLAN |
-|---|-------------|-------|---------|------|
-| 13 | `CityA-SmartHome-1` | **IoT-PT** (Smart Home Device) | Smart home hub | VLAN 20 |
-| 14 | `CityA-SmartHome-2` | **IoT-PT** (Smart Home Device) | Smart home hub | VLAN 20 |
-| 15 | `CityA-EnvMonitor-1` | **IoT-PT** (Environmental Monitor) | Air quality sensor | VLAN 20 |
+#### Transportation Zone (5 devices) - **Use SBC-PT**
+| # | Device Name | Model | Purpose | VLAN | Connection |
+|---|-------------|-------|---------|------|-----------|
+| 4 | `CityA-TrafficLight-1` | **SBC-PT** | Traffic light controller | VLAN 40 | FastEthernet0 |
+| 5 | `CityA-TrafficLight-2` | **SBC-PT** | Traffic light controller | VLAN 40 | FastEthernet0 |
+| 6 | `CityA-ParkingSensor-1` | **SBC-PT** | Smart parking sensor | VLAN 40 | FastEthernet0 |
+| 7 | `CityA-ParkingSensor-2` | **SBC-PT** | Smart parking sensor | VLAN 40 | FastEthernet0 |
+| 8 | `CityA-BusTracker-1` | **SBC-PT** | Bus location tracker | VLAN 40 | FastEthernet0 |
 
-**If IoT-PT not available:** Use **PC-PT** and label as "IoT Simulator"
+#### Utilities Zone (4 devices) - **Use SBC-PT**
+| # | Device Name | Model | Purpose | VLAN | Connection |
+|---|-------------|-------|---------|------|-----------|
+| 9 | `CityA-SmartGrid-1` | **SBC-PT** | Power grid sensor | VLAN 70 | FastEthernet0 |
+| 10 | `CityA-SmartGrid-2` | **SBC-PT** | Power grid sensor | VLAN 70 | FastEthernet0 |
+| 11 | `CityA-WaterMonitor-1` | **SBC-PT** | Water quality monitor | VLAN 70 | FastEthernet0 |
+| 12 | `CityA-WaterMonitor-2` | **SBC-PT** | Water quality monitor | VLAN 70 | FastEthernet0 |
+
+#### Residential Zone (3 devices) - **Use Home Gateway + SBC-PT**
+| # | Device Name | Model | Purpose | VLAN | Connection |
+|---|-------------|-------|---------|------|-----------|
+| 13 | `CityA-SmartHome-1` | **Home Gateway** | Smart home hub | VLAN 20 | Ethernet0 |
+| 14 | `CityA-SmartHome-2` | **Home Gateway** | Smart home hub | VLAN 20 | Ethernet0 |
+| 15 | `CityA-EnvMonitor-1` | **SBC-PT** | Air quality sensor | VLAN 20 | FastEthernet0 |
+
+**Location in PT:** End Devices → IoT Devices → Home Gateway
+
+---
+
+### **✅ DEVICE SELECTION RULES:**
+
+1. **ALL IoT devices MUST have Ethernet ports** for wired connection
+2. **Recommended Models:**
+   - **SBC-PT** (Single Board Computer) - Best for sensors/controllers
+   - **Home Gateway** - Best for smart home hubs
+   - **PC-PT** - Universal fallback (works in all PT versions)
+3. **AVOID These (Wireless-Only):**
+   - ❌ Webcam
+   - ❌ Motion Detector
+   - ❌ GPS
+   - ❌ Smoke Detector
+   - ❌ Any device without visible Ethernet port
+
+---
+
+### **📱 ALTERNATIVE: Simple PC-PT Approach**
+
+**If you want maximum simplicity:**
+- Use **PC-PT** for ALL 15 IoT devices
+- Label each PC with IoT name (e.g., "IoT-Camera-1", "IoT-Traffic-1")
+- Configure DHCP or Static IP
+- Works perfectly for networking demonstration
+
+**Why this works:**
+- ✅ PC-PT always has FastEthernet0 port
+- ✅ Available in all PT versions (8.0+)
+- ✅ Easy to configure and troubleshoot
+- ✅ Demonstrates same networking concepts
+- ✅ Professor evaluates networking, not IoT hardware realism
 
 ---
 

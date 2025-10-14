@@ -5,6 +5,34 @@
 
 ---
 
+## ⚠️ CRITICAL: IoT DEVICE CONNECTIVITY
+
+**IMPORTANT - Read Before Connecting IoT Devices:**
+
+Many IoT devices in Packet Tracer 8.2+ are **WIRELESS-ONLY** and **CANNOT** be connected with Ethernet cables!
+
+### ❌ **Devices You CANNOT Wire:**
+- Webcam (Bluetooth/WiFi only)
+- Motion Detector (wireless only)
+- GPS (wireless only)
+- Smoke Detector (wireless only)
+- **Cell Tower** (if device exists, it's wireless-only)
+
+### ✅ **Devices You CAN Wire:**
+- **SBC-PT** (Single Board Computer) - FastEthernet0 port ← **USE FOR IoT!**
+- **Home Gateway** - Ethernet0 port
+- **MCU-PT** (Microcontroller) - FastEthernet0 port
+- **PC-PT** - FastEthernet0 port (simplest option)
+- **Linksys WRT300N** - Internet port ← **USE FOR CELL TOWER!**
+- **AccessPoint-PT** - Ethernet1 port
+
+### 📖 **For Complete Details:**
+See `IOT_DEVICE_CONNECTIVITY_GUIDE.md` for comprehensive IoT device selection guide.
+
+**This guide uses SBC-PT and Home Gateway devices for all IoT - they all have wired Ethernet ports!**
+
+---
+
 ## 📌 CABLE TYPES REFERENCE
 
 | Cable Type | Icon in PT | When to Use | In This Project |
@@ -48,18 +76,22 @@
 
 ---
 
-#### Core Router ↔ Zone Routers
+#### Core Switches ↔ Zone Routers
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 4 | `CityA-Core-R1` | `Gig0/0/0.10` → `Gig0/2` | `CityA-Gov-R1` | `Gig0/0` | Straight-Through |
-| 5 | `CityA-Core-R1` | `Gig0/0/0.20` → `Gig0/3` | `CityA-Res-R1` | `Gig0/0` | Straight-Through |
-| 6 | `CityA-Core-R1` | `Gig0/0/0.30` → `Gig1/0` | `CityA-Com-R1` | `Gig0/0` | Straight-Through |
+| 4 | `CityA-Core-SW1` | `Gig1/0/2` | `CityA-Gov-R1` | `Gig0/0` | Straight-Through |
+| 5 | `CityA-Core-SW1` | `Gig1/0/3` | `CityA-Res-R1` | `Gig0/0` | Straight-Through |
+| 6 | `CityA-Core-SW2` | `Gig1/0/3` | `CityA-Com-R1` | `Gig0/0` | Straight-Through |
 
-**Note:** If router doesn't have Gig0/0/0.XX (subinterfaces), use physical interfaces Gig0/2, Gig0/3, Gig1/0
+**IMPORTANT:**
+- Cisco 2911 routers have only 3 GigabitEthernet ports (Gig0/0, Gig0/1, Gig0/2)
+- Zone routers connect to CORE SWITCHES, not directly to Core Router
+- This follows proper hierarchical network design (more realistic!)
 
 **Why:**
-- Zone routers connect to core for OSPF routing
+- Zone routers connect to distribution layer (core switches) for OSPF routing
+- Core router handles inter-VLAN routing via trunk links to switches
 - Each zone router serves VLANs for its area
 
 ---
@@ -68,11 +100,12 @@
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 7 | `CityA-Border-R1` | `Gig0/0` | `CityA-Core-R1` | `Gig1/1` | Straight-Through |
+| 7 | `CityA-Border-R1` | `Gig0/0` | `CityA-Core-R1` | `Gig0/2` | Straight-Through |
 | 8 | `CityA-Border-R1` | `Serial0/0/0` | `ISP-Border-R1` | `Serial0/0/0` | Serial DCE |
 
 **Why:**
-- Border router connects city to ISP
+- Border router connects to core router's Gig0/2 port
+- Core router's Gig0/0 and Gig0/1 are used for switch trunks
 - Serial link simulates WAN connection (fiber/leased line)
 
 ---
@@ -109,20 +142,22 @@
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 14 | `CityA-Gov-SW1` | `Fa0/1` | `CityA-Gov-PC-1` | `Fa0` | Straight-Through |
-| 15 | `CityA-Gov-SW1` | `Fa0/2` | `CityA-Gov-PC-2` | `Fa0` | Straight-Through |
-| 16 | `CityA-Gov-SW1` | `Fa0/3` | `CityA-Police-PC-1` | `Fa0` | Straight-Through |
-| 17 | `CityA-Gov-SW1` | `Fa0/4` | `CityA-Fire-PC-1` | `Fa0` | Straight-Through |
-| 18 | `CityA-Gov-SW1` | `Fa0/5` | `CityA-WiFi-Gov-AP1` | `Port 1` (Ethernet) | Straight-Through |
-| 19 | `CityA-Gov-SW1` | `Fa0/6` | `CityA-Gov-Camera-1` | `Fa0 / Ethernet0` | Straight-Through |
-| 20 | `CityA-Gov-SW1` | `Fa0/7` | `CityA-Gov-Camera-2` | `Fa0 / Ethernet0` | Straight-Through |
-| 21 | `CityA-Gov-SW1` | `Fa0/8` | `CityA-Fire-Sensor-1` | `Fa0 / Ethernet0` | Straight-Through |
+| 14 | `CityA-Gov-SW1` | `Fa0/1` | `CityA-Gov-PC-1` | `FastEthernet0` | Straight-Through |
+| 15 | `CityA-Gov-SW1` | `Fa0/2` | `CityA-Gov-PC-2` | `FastEthernet0` | Straight-Through |
+| 16 | `CityA-Gov-SW1` | `Fa0/3` | `CityA-Police-PC-1` | `FastEthernet0` | Straight-Through |
+| 17 | `CityA-Gov-SW1` | `Fa0/4` | `CityA-Fire-PC-1` | `FastEthernet0` | Straight-Through |
+| 18 | `CityA-Gov-SW1` | `Fa0/5` | `CityA-WiFi-Gov-AP1` | `Ethernet1` | Straight-Through |
+| 19 | `CityA-Gov-SW1` | `Fa0/6` | `CityA-Gov-Camera-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 20 | `CityA-Gov-SW1` | `Fa0/7` | `CityA-Gov-Camera-2` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 21 | `CityA-Gov-SW1` | `Fa0/8` | `CityA-Fire-Sensor-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
 
 **VLANs:**
 - Fa0/1-2: VLAN 10 (Government)
 - Fa0/3-4: VLAN 60 (Emergency)
 - Fa0/5: VLAN 10 (WiFi management)
-- Fa0/6-8: VLAN 60 (Security IoT)
+- Fa0/6-8: VLAN 60 (Security IoT - SBC-PT devices)
+
+**NOTE:** SBC-PT devices have FastEthernet0 port (wired connection)
 
 ---
 
@@ -144,15 +179,17 @@
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 24 | `CityA-Res-SW1` | `Fa0/1` | `CityA-Home-PC-1` | `Fa0` | Straight-Through |
-| 25 | `CityA-Res-SW1` | `Fa0/2` | `CityA-Home-Laptop-1` | `Fa0` | Straight-Through |
-| 26 | `CityA-Res-SW1` | `Fa0/3` | `CityA-WiFi-Res-AP1` | `Port 1` | Straight-Through |
-| 27 | `CityA-Res-SW1` | `Fa0/4` | `CityA-SmartHome-1` | `Fa0 / Ethernet0` | Straight-Through |
-| 28 | `CityA-Res-SW1` | `Fa0/5` | `CityA-SmartHome-2` | `Fa0 / Ethernet0` | Straight-Through |
-| 29 | `CityA-Res-SW1` | `Fa0/6` | `CityA-EnvMonitor-1` | `Fa0 / Ethernet0` | Straight-Through |
+| 24 | `CityA-Res-SW1` | `Fa0/1` | `CityA-Home-PC-1` | `FastEthernet0` | Straight-Through |
+| 25 | `CityA-Res-SW1` | `Fa0/2` | `CityA-Home-Laptop-1` | `FastEthernet0` | Straight-Through |
+| 26 | `CityA-Res-SW1` | `Fa0/3` | `CityA-WiFi-Res-AP1` | `Ethernet1` | Straight-Through |
+| 27 | `CityA-Res-SW1` | `Fa0/4` | `CityA-SmartHome-1` (Home Gateway) | `Ethernet0` | Straight-Through |
+| 28 | `CityA-Res-SW1` | `Fa0/5` | `CityA-SmartHome-2` (Home Gateway) | `Ethernet0` | Straight-Through |
+| 29 | `CityA-Res-SW1` | `Fa0/6` | `CityA-EnvMonitor-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
 
 **VLANs:**
 - All ports: VLAN 20 (Residential)
+
+**NOTE:** Home Gateway uses Ethernet0, SBC-PT uses FastEthernet0
 
 ---
 
@@ -160,11 +197,27 @@
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 30 | `CityA-Res-SW2` | `Fa0/1` | `CityA-CellTower-1` | `Port 1 / Ethernet0` | Straight-Through |
+| 30 | `CityA-Res-SW2` | `Fa0/1` | `CityA-CellTower-1` (Linksys WRT300N) | **Internet** port | Straight-Through |
 
-**Why:**
-- Cell tower provides 4G/5G coverage for mobile devices
-- Connects to wired network for backhaul
+**CRITICAL - Cell Tower Connection:**
+- ⚠️ **Packet Tracer Cell Tower devices (if they exist) have NO Ethernet port**
+- ✅ **MUST use Linksys WRT300N** for wired cellular simulation
+- ✅ Connect to **"Internet"** port (WAN port) on WRT300N
+- This port provides backhaul connection for cellular network
+
+**Why Linksys WRT300N:**
+- Cell tower provides 4G/5G coverage for mobile devices via WiFi
+- Internet port connects to wired network for backhaul
+- Simulates real cellular tower with fiber/ethernet backhaul connection
+
+**Configuration (after connection):**
+1. Click Linksys WRT300N
+2. Config tab → Wireless
+3. SSID: `CityA-4G-LTE`
+4. Security: WPA2-PSK, Password: `Cellular2024`
+5. Config tab → DHCP → **Disable** DHCP Server
+6. Config tab → Internet (WAN) → Static IP: 192.168.20.60
+7. Gateway: 192.168.20.1
 
 ---
 
@@ -189,10 +242,10 @@
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 32 | `CityA-Com-SW1` | `Fa0/1` | `CityA-Com-PC-1` | `Fa0` | Straight-Through |
-| 33 | `CityA-Com-SW1` | `Fa0/2` | `CityA-Com-Laptop-1` | `Fa0` | Straight-Through |
-| 34 | `CityA-Com-SW1` | `Fa0/3` | `CityA-Retail-POS-1` | `Fa0` | Straight-Through |
-| 35 | `CityA-Com-SW1` | `Fa0/4` | `CityA-WiFi-Pub-AP1` | `Port 1` | Straight-Through |
+| 32 | `CityA-Com-SW1` | `Fa0/1` | `CityA-Com-PC-1` | `FastEthernet0` | Straight-Through |
+| 33 | `CityA-Com-SW1` | `Fa0/2` | `CityA-Com-Laptop-1` | `FastEthernet0` | Straight-Through |
+| 34 | `CityA-Com-SW1` | `Fa0/3` | `CityA-Retail-POS-1` | `FastEthernet0` | Straight-Through |
+| 35 | `CityA-Com-SW1` | `Fa0/4` | `CityA-WiFi-Pub-AP1` | `Ethernet1` | Straight-Through |
 
 **VLANs:**
 - Fa0/1-3: VLAN 30 (Commercial)
@@ -224,14 +277,16 @@
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 37 | `CityA-Trans-SW1` | `Fa0/1` | `CityA-TrafficLight-1` | `Fa0 / Ethernet0` | Straight-Through |
-| 38 | `CityA-Trans-SW1` | `Fa0/2` | `CityA-TrafficLight-2` | `Fa0 / Ethernet0` | Straight-Through |
-| 39 | `CityA-Trans-SW1` | `Fa0/3` | `CityA-ParkingSensor-1` | `Fa0 / Ethernet0` | Straight-Through |
-| 40 | `CityA-Trans-SW1` | `Fa0/4` | `CityA-ParkingSensor-2` | `Fa0 / Ethernet0` | Straight-Through |
-| 41 | `CityA-Trans-SW1` | `Fa0/5` | `CityA-BusTracker-1` | `Fa0 / Ethernet0` | Straight-Through |
+| 37 | `CityA-Trans-SW1` | `Fa0/1` | `CityA-TrafficLight-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 38 | `CityA-Trans-SW1` | `Fa0/2` | `CityA-TrafficLight-2` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 39 | `CityA-Trans-SW1` | `Fa0/3` | `CityA-ParkingSensor-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 40 | `CityA-Trans-SW1` | `Fa0/4` | `CityA-ParkingSensor-2` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 41 | `CityA-Trans-SW1` | `Fa0/5` | `CityA-BusTracker-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
 
 **VLANs:**
 - All ports: VLAN 40 (Transportation)
+
+**NOTE:** All IoT devices use SBC-PT with FastEthernet0 port
 
 ---
 
@@ -249,13 +304,15 @@
 
 | # | From Device | From Port | To Device | To Port | Cable Type |
 |---|-------------|-----------|-----------|---------|------------|
-| 43 | `CityA-Util-SW1` | `Fa0/1` | `CityA-SmartGrid-1` | `Fa0 / Ethernet0` | Straight-Through |
-| 44 | `CityA-Util-SW1` | `Fa0/2` | `CityA-SmartGrid-2` | `Fa0 / Ethernet0` | Straight-Through |
-| 45 | `CityA-Util-SW1` | `Fa0/3` | `CityA-WaterMonitor-1` | `Fa0 / Ethernet0` | Straight-Through |
-| 46 | `CityA-Util-SW1` | `Fa0/4` | `CityA-WaterMonitor-2` | `Fa0 / Ethernet0` | Straight-Through |
+| 43 | `CityA-Util-SW1` | `Fa0/1` | `CityA-SmartGrid-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 44 | `CityA-Util-SW1` | `Fa0/2` | `CityA-SmartGrid-2` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 45 | `CityA-Util-SW1` | `Fa0/3` | `CityA-WaterMonitor-1` (SBC-PT) | `FastEthernet0` | Straight-Through |
+| 46 | `CityA-Util-SW1` | `Fa0/4` | `CityA-WaterMonitor-2` (SBC-PT) | `FastEthernet0` | Straight-Through |
 
 **VLANs:**
 - All ports: VLAN 70 (Utilities)
+
+**NOTE:** All IoT devices use SBC-PT with FastEthernet0 port
 
 ---
 

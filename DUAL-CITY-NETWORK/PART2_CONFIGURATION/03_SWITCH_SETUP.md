@@ -34,16 +34,18 @@
 
 ## 📋 SWITCH CONFIGURATION SUMMARY
 
-| City | Switch | VLANs | Trunk Ports | Access Ports | Purpose |
-|------|--------|-------|-------------|--------------|---------|
-| A | Core-SW1 | All (10-99) | Gig1/0/1-2 | Fa1/0/1-4 | Core distribution + Servers |
-| A | Core-SW2 | All (10-99) | Gig1/0/1-2 | Fa1/0/5-6 | Core distribution + Trans/Util |
-| A | Gov-SW1 | 10, 60 | Fa0/24 | Fa0/1-8 | Government zone |
-| A | Res-SW1 | 20 | Fa0/24 | Fa0/1-6 | Residential zone 1 |
-| A | Res-SW2 | 20 | Fa0/24 | Fa0/1 | Residential zone 2 + Cell |
-| A | Com-SW1 | 30, 50 | Fa0/24 | Fa0/1-4 | Commercial + Public WiFi |
-| A | Trans-SW1 | 40 | Fa0/24 | Fa0/1-5 | Transportation IoT |
-| A | Util-SW1 | 70 | Fa0/24 | Fa0/1-4 | Utilities IoT |
+| City | Switch | VLANs | Trunk Ports | Router Connections | Access Ports | Purpose |
+|------|--------|-------|-------------|-------------------|--------------|---------|
+| A | Core-SW1 | All (10-99) | Gig1/0/1 (Core-R1), Gig1/0/4 (SW2) | Gig1/0/2 (Gov-R1), Gig1/0/3 (Res-R1) | Fa1/0/1-4 | Distribution + Servers |
+| A | Core-SW2 | All (10-99) | Gig1/0/1 (Core-R1), Gig1/0/2 (SW1) | Gig1/0/3 (Com-R1) | Fa1/0/5-6 | Distribution + Trans/Util |
+| A | Gov-SW1 | 10, 60 | Fa0/24 (Gov-R1) | — | Fa0/1-8 | Government zone |
+| A | Res-SW1 | 20 | Fa0/24 (Res-R1) | — | Fa0/1-6 | Residential zone 1 |
+| A | Res-SW2 | 20 | Fa0/24 (Res-R1) | — | Fa0/1 | Residential zone 2 + Cell |
+| A | Com-SW1 | 30, 50 | Fa0/24 (Com-R1) | — | Fa0/1-4 | Commercial + Public WiFi |
+| A | Trans-SW1 | 40 | Fa0/24 (Core-SW2) | — | Fa0/1-5 | Transportation IoT |
+| A | Util-SW1 | 70 | Fa0/24 (Core-SW2) | — | Fa0/1-4 | Utilities IoT |
+
+**NOTE:** Zone routers (Gov, Res, Com) connect to core switches on Gig ports (Layer 2), not trunks
 
 *City B: Identical configuration, replace "CityA" with "CityB"*
 
@@ -122,20 +124,46 @@ vlan 99
 
 ```cisco
 interface GigabitEthernet1/0/1
- description Trunk to CityA-Core-R1
+ description Trunk to CityA-Core-R1 Gig0/0
  switchport mode trunk
- switchport trunk allowed vlan 40,50,70,99
+ switchport trunk allowed vlan all
  switchport trunk native vlan 99
  no shutdown
  exit
 ```
+
+**NOTE:** Allows all VLANs because Core Router needs access to all networks
+
+---
+
+#### **Layer 2 Connections to Zone Routers**
+
+```cisco
+! Gov Router Connection
+interface GigabitEthernet1/0/2
+ description Layer2 to CityA-Gov-R1 (OSPF neighbor)
+ switchport mode access
+ switchport access vlan 99
+ no shutdown
+ exit
+
+! Res Router Connection
+interface GigabitEthernet1/0/3
+ description Layer2 to CityA-Res-R1 (OSPF neighbor)
+ switchport mode access
+ switchport access vlan 99
+ no shutdown
+ exit
+```
+
+**IMPORTANT:** These are NOT trunks - they're Layer 2 connections in VLAN 99 for OSPF routing
 
 ---
 
 #### **Trunk to Core-SW2 (Redundancy)**
 
 ```cisco
-interface GigabitEthernet1/0/2
+interface GigabitEthernet1/0/4
  description Trunk to CityA-Core-SW2 (STP Backup)
  switchport mode trunk
  switchport trunk allowed vlan all
@@ -286,9 +314,18 @@ interface GigabitEthernet1/0/1
 
 ! Trunk to Core-SW1 (Redundancy)
 interface GigabitEthernet1/0/2
- description Trunk to CityA-Core-SW1
+ description Trunk to CityA-Core-SW1 Gig1/0/4
  switchport mode trunk
  switchport trunk allowed vlan all
+ switchport trunk native vlan 99
+ no shutdown
+ exit
+
+! Layer2 to Com Router
+interface GigabitEthernet1/0/3
+ description Layer2 to CityA-Com-R1 (OSPF neighbor)
+ switchport mode access
+ switchport access vlan 99
  no shutdown
  exit
 
@@ -686,7 +723,8 @@ show ip interface brief
 
 ### **Core-SW1:**
 - VLANs: 1, 10, 20, 30, 40, 50, 60, 70, 99
-- Trunks: Gig1/0/1, Gig1/0/2
+- Trunks: Gig1/0/1 (Core-R1), Gig1/0/4 (Core-SW2)
+- Layer2 Router Connections: Gig1/0/2 (Gov-R1), Gig1/0/3 (Res-R1)
 - STP: Root for all VLANs
 - Port security: Active on Fa1/0/1-4
 

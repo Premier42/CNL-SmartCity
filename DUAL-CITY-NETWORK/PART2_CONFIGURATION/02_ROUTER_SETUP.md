@@ -288,10 +288,12 @@ service password-encryption
 
 ### **Step 2: Physical Interfaces**
 
+**IMPORTANT:** Cisco 2911 has only 3 GigabitEthernet interfaces (Gig0/0, Gig0/1, Gig0/2)
+
 #### **Interface to Border Router**
 
 ```cisco
-interface GigabitEthernet1/1
+interface GigabitEthernet0/2
  description Link to CityA-Border-R1
  ip address 10.0.0.1 255.255.255.252
  ipv6 address 2001:db8:a:ff01::1/127
@@ -301,66 +303,34 @@ interface GigabitEthernet1/1
 
 ---
 
-#### **Interface to Government Router**
-
-```cisco
-interface GigabitEthernet0/2
- description Link to CityA-Gov-R1
- ip address 10.0.1.1 255.255.255.252
- ipv6 address 2001:db8:a:ff02::1/127
- no shutdown
- exit
-```
-
----
-
-#### **Interface to Residential Router**
-
-```cisco
-interface GigabitEthernet0/3
- description Link to CityA-Res-R1
- ip address 10.0.2.1 255.255.255.252
- ipv6 address 2001:db8:a:ff03::1/127
- no shutdown
- exit
-```
-
----
-
-#### **Interface to Commercial Router**
-
-```cisco
-interface GigabitEthernet1/0
- description Link to CityA-Com-R1
- ip address 10.0.3.1 255.255.255.252
- ipv6 address 2001:db8:a:ff04::1/127
- no shutdown
- exit
-```
-
----
-
-#### **Interface to Core Switches (Trunk)**
+#### **Interface to Core Switches (Trunk for VLANs)**
 
 ```cisco
 interface GigabitEthernet0/0
- description Trunk to CityA-Core-SW1
+ description Trunk to CityA-Core-SW1 (carries all VLANs)
  no ip address
  no shutdown
  exit
 
 interface GigabitEthernet0/1
- description Trunk to CityA-Core-SW2
+ description Trunk to CityA-Core-SW2 (carries all VLANs)
  no ip address
  no shutdown
  exit
 ```
 
-**Note:** Main interfaces have NO IP because sub-interfaces will handle VLANs
+**Note:**
+- Main interfaces have NO IP because sub-interfaces will handle VLANs
+- Zone routers (Gov, Res, Com) connect to Core SWITCHES via OSPF
+- This is proper hierarchical design: zone routers → distribution switches → core router
 
 ---
 
 ### **Step 3: Sub-Interfaces for VLANs (Router-on-a-Stick)**
+
+**NOTE:** Core Router only handles VLANs for directly connected zones:
+- **VLAN 40** (Transportation), **VLAN 50** (Public WiFi), **VLAN 70** (Utilities), **VLAN 99** (Management)
+- Zone-specific VLANs (10, 20, 30, 60) are handled by their respective zone routers (Gov-R1, Res-R1, Com-R1)
 
 #### **VLAN 40: Transportation (on Gig0/0)**
 
@@ -433,9 +403,6 @@ interface GigabitEthernet0/1.99
 router ospf 1
  router-id 1.1.1.2
  network 10.0.0.0 0.0.0.3 area 10
- network 10.0.1.0 0.0.0.3 area 10
- network 10.0.2.0 0.0.0.3 area 10
- network 10.0.3.0 0.0.0.3 area 10
  network 192.168.40.0 0.0.0.255 area 10
  network 192.168.50.0 0.0.0.255 area 10
  network 192.168.70.0 0.0.0.255 area 10
@@ -448,6 +415,9 @@ router ospf 1
 ```
 
 **Explanation:**
+- Only advertise networks directly connected to Core Router
+- Zone routers (Gov-R1, Res-R1, Com-R1) will advertise their VLAN networks (10, 20, 30, 60)
+- OSPF will automatically learn and distribute all routes
 - All links in Area 10 (City A)
 - Passive on VLAN interfaces (don't send OSPF to end devices)
 
@@ -500,8 +470,8 @@ policy-map CITYA-QOS
   fair-queue
  exit
 
-! Apply to outbound interface
-interface GigabitEthernet1/1
+! Apply to outbound interface (toward Border Router)
+interface GigabitEthernet0/2
  service-policy output CITYA-QOS
  exit
 
@@ -534,7 +504,7 @@ write memory
 show ip interface brief
 show ip ospf neighbor
 show ip route ospf
-show policy-map interface GigabitEthernet1/1
+show policy-map interface GigabitEthernet0/2
 show access-lists
 ```
 
@@ -542,10 +512,12 @@ show access-lists
 
 ## ✅ **CHECKPOINT:** Core Router Complete
 Expected:
-- 8 interfaces UP (4 physical + 4 sub-interfaces)
-- OSPF neighbors: Border-R1, Gov-R1, Res-R1, Com-R1
-- QoS policy applied
+- 7 interfaces UP (3 physical: Gig0/0, Gig0/1, Gig0/2 + 4 sub-interfaces)
+- OSPF neighbors: Border-R1, Gov-R1 (via switch), Res-R1 (via switch), Com-R1 (via switch)
+- QoS policy applied on Gig0/2
 - ACL 110 active on VLAN 50
+
+Note: Zone routers appear as OSPF neighbors because they're on the same Layer 2 domain via core switches
 
 ---
 
@@ -1110,7 +1082,7 @@ show access-lists
 show ip access-lists
 
 ! Check QoS (core routers)
-show policy-map interface GigabitEthernet1/1
+show policy-map interface GigabitEthernet0/2
 ```
 
 ---
